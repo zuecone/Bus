@@ -16,7 +16,8 @@ var Form = React.createClass({
     return {
       ServiceCat: '',
       ProvinceCat: '',
-      BusinessCat: ''
+      BusinessCat: '',
+      Success: ''
     };
   },
   componentWillMount: function() {
@@ -82,7 +83,8 @@ IDNumber, "\n"
       );
 
 
-      this.itemsRef.push({CompanyName,
+      var result = this.itemsRef.push({
+        CompanyName,
         RegistrationNumber,
         ServiceCategory,
         MainServices,
@@ -100,10 +102,37 @@ IDNumber, "\n"
         WebAddress,
         Name,
         Surname,
-        IDNumber,
-      });
+        IDNumber
+      }).then((snap) => {
+     this.setState({Success: snap.key});
+   });
+
+
+//console.log(this.refs.ServiceCategory);
+      this.refs.CompanyName.value = "";
+      this.refs.RegistrationNumber.value = "";
+      //this.refs.ServiceCategory.value = "--";
+      this.refs.MainServices.value = "";
+      this.refs.UnitNumber.value = "";
+      this.refs.ComplexName.value = "";
+      this.refs.StreetNumber.value = "";
+      this.refs.StreetName.value = "";
+      this.refs.Suburb.value = "";
+      this.refs.City.value = "";
+      //this.state.ProvinceCat;
+      //this.state.BusinessCat;
+      this.refs.ContactNumber1.value = "";
+      this.refs.ContactNumber2.value = "";
+      this.refs.EmailAddress.value = "";
+      this.refs.WebAddress.value = "";
+      this.refs.Name.value = "";
+      this.refs.Surname.value = "";
+      this.refs.IDNumber.value = "";
+
     },
   render: function(){
+    var {Success} = this.state;
+
   return (
     <form ref="form" onSubmit={this.onSubmit} >
       <div class="callout secondary"><p>Business</p>
@@ -230,11 +259,17 @@ IDNumber, "\n"
       <div class="row">
         <div class="medium-12 columns">
           <input type="text" ref="IDNumber" placeholder="ID Number" class="" />
-          <input type="text" ref="CopyOfId" placeholder="Copy of ID" class="" />
-          <input type="text" ref="ProofOfResidence" placeholder="Proof of Residence" class="" />
+          <input type="text" ref="CopyOfId" placeholder="Copy of ID -- NOT YET LINKED" class="" />
+          <input type="text" ref="ProofOfResidence" placeholder="Proof of Residence -- NOT YET LINKED" class="" />
         </div>
       </div>
 
+      <div class="row">
+        <div class="medium-12 columns">
+          <p>{Success}</p>
+        </div>
+      </div>
+      
       <div class="row">
         <div class="medium-12 columns">
           <button class="button expanded">Add</button>
@@ -242,7 +277,9 @@ IDNumber, "\n"
       </div>
     </div>
 
+
   </form>
+
   );
   }
 });
